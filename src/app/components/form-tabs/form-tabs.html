@@ -1,0 +1,24 @@
+<div class="tab-container">
+  <div class="tabs">
+    <button [class.active]="activeTab === 'formA'" (click)="switchTab('formA')">Form A</button>
+    <button [class.active]="activeTab === 'formB'" (click)="switchTab('formB')">Form B</button>
+  </div>
+
+  <div class="tab-content">
+    <div *ngIf="activeTab === 'formA'">
+      <app-dynamic-form
+        [schema]="formASchema"
+        [initialValue]="formAValue$ | async"
+        (formSubmit)="onFormASubmit($event)">
+      </app-dynamic-form>
+    </div>
+
+    <div *ngIf="activeTab === 'formB'">
+      <app-dynamic-form
+        [schema]="formBSchema"
+        [initialValue]="formBValue$ | async"
+        (formSubmit)="onFormBSubmit($event)">
+      </app-dynamic-form>
+    </div>
+  </div>
+</div>

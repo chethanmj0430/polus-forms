@@ -1,0 +1,51 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+  <div *ngFor="let control of schema" class="form-group">
+    <label [for]="control.name">{{ control.label }}</label>
+
+    <div [ngSwitch]="control.type">
+      <input 
+        *ngSwitchCase="'text'" 
+        [type]="control.type" 
+        [id]="control.name" 
+        [formControlName]="control.name" 
+        class="form-control"
+      />
+      <input 
+        *ngSwitchCase="'password'" 
+        [type]="control.type" 
+        [id]="control.name" 
+        [formControlName]="control.name" 
+        class="form-control"
+      />
+      <input 
+        *ngSwitchCase="'email'" 
+        [type]="control.type" 
+        [id]="control.name" 
+        [formControlName]="control.name" 
+        class="form-control"
+      />
+
+      <div *ngSwitchCase="'checkbox'">
+        <input 
+          type="checkbox" 
+          [id]="control.name" 
+          [formControlName]="control.name"
+        />
+      </div>
+    </div>
+
+    <div 
+      *ngIf="getControl(control.name)?.invalid && (getControl(control.name)?.touched || getControl(control.name)?.dirty)" 
+      class="error-message"
+    >
+      <div *ngIf="getControl(control.name)?.errors?.['required']">
+        {{ control.label }} is required.
+      </div>
+      <div *ngIf="getControl(control.name)?.errors?.['email']">
+        Please enter a valid email.
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">Submit</button>
+</form>

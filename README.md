@@ -1,59 +1,52 @@
-# PolusForms
+### Polus Dynamic Form Generator with Multi-tab State Management
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+This project is an Angular application that dynamically renders forms from a JSON schema. It features a tabbed interface with independent state management and optimized performance, fulfilling the requirements of the machine test.
 
-## Development server
+## Features
 
-To start a local development server, run:
+  * **Dynamic Form Generation**: A reusable `DynamicFormComponent` renders form controls and applies validation based on a provided JSON schema.
+  * **Tabbed Interface**: The `FormTabsComponent` manages two separate forms, each with its own schema.
+  * **Scalable State Management**: A singleton `FormStateService` uses `BehaviorSubject` to store and restore form data for each tab, ensuring data persists when switching between tabs.
+  * **Optimized Change Detection**: Components use `ChangeDetectionStrategy.OnPush` to minimize re-renders and improve application performance.
+  * **Local Storage Persistence (Bonus)**: Form data is automatically saved to and loaded from local storage, so data is not lost on page refresh.
+  * **Notification System (Bonus)**: A simple toast notification is displayed upon successful form submission.
 
-```bash
-ng serve
-```
+## Tech Stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+  * **Angular 20+**
+  * **TypeScript**
+  * **RxJS** (for state management with `BehaviorSubject`)
+  * **Reactive Forms**
 
-## Code scaffolding
+## Project Architecture
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The application follows a clear component-service architecture:
 
-```bash
-ng generate component component-name
-```
+  * **`FormStateService`**: The core of the state management solution. It holds the form schemas and the current state for each form in a `BehaviorSubject`, exposing them as observables.
+  * **`DynamicFormComponent`**: A "dumb" component that is solely responsible for rendering a form based on the input schema. It handles validation and emits the form's value on submit.
+  * **`FormTabsComponent`**: The "smart" container component. It injects the `FormStateService` to get the schemas and initial data, then passes this information to two instances of the `DynamicFormComponent`. It also listens for form submissions to update the state in the service.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## How to Run the Project
 
-```bash
-ng generate --help
-```
+Follow these steps to get the application running locally:
 
-## Building
+1.  **Clone the repository**:
 
-To build the project run:
+    ```bash
+    git clone https://github.com/chethanmj0430/polus-forms
+    cd polus-forms
+    ```
 
-```bash
-ng build
-```
+2.  **Install dependencies**:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+    ```bash
+    npm install
+    ```
 
-## Running unit tests
+3.  **Run the application**:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+    ```bash
+    ng serve --open
+    ```
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The application will open in your browser, typically at `http://localhost:4200`. You can then interact with the forms and test the state management by switching between the tabs.
